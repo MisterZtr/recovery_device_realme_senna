@@ -1,0 +1,12 @@
+on late-fs
+    chown system system /dev/awinic_haptic
+    chmod 0600 /dev/awinic_haptic
+
+service vendor.vibrator /vendor/bin/hw/android.hardware.vibrator.service.legacy.oplus-richtap
+    class hal
+    user root
+    group root input
+    setenv RICHTAP_DEVICE_PATH /dev/awinic_haptic
+    setenv ENV_RICHTAP_CONFIG_PATH /vendor/etc/aac_richtap.config
+    setenv LD_LIBRARY_PATH /vendor/lib64:/vendor/lib64/hw:/system/lib64:/sbin:/odm/lib64
+    seclabel u:r:recovery:s0

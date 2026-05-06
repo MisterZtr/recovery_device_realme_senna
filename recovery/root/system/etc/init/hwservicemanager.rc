@@ -1,0 +1,17 @@
+service hwservicemanager /system/bin/hwservicemanager
+    user root
+    disabled
+    group root readproc
+    critical
+    onrestart setprop hwservicemanager.ready false
+    onrestart class_restart --only-enabled main
+    onrestart class_restart --only-enabled hal
+    onrestart class_restart --only-enabled early_hal
+    task_profiles ServiceCapacityLow HighPerformance
+    class animation
+    shutdown critical
+    setenv LD_LIBRARY_PATH /vendor/lib64:/vendor/lib64/hw:/system/lib64:/sbin:/odm/lib64
+    seclabel u:r:recovery:s0
+
+on property:hwservicemanager.disabled=true
+    stop hwservicemanager
